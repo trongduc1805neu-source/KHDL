@@ -1,0 +1,6 @@
+{
+  "name": "Quiz Extract & Study",
+  "description": "Ứng dụng trích xuất bộ đề trắc nghiệm từ JSON và hỗ trợ ôn tập, làm bài trực tuyến.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
