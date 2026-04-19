@@ -24,7 +24,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
 
   const parseNotionJson = (jsonObj: any[]): Question[] => {
     const parsed: Question[] = [];
-    if (!Array.isArray(jsonObj)) throw new Error('Root JSON must be an array [].');
+    if (!Array.isArray(jsonObj)) throw new Error('Dữ liệu JSON gốc phải là một mảng [].');
     for (const item of jsonObj) {
       try {
         const props = item.properties || item;
@@ -34,7 +34,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
           if (typeof field === 'string') return field;
           return '';
         };
-        const questionText = getText(props.question) || getText(props.Question) || 'Empty Question';
+        const questionText = getText(props.question) || getText(props.Question) || 'Câu hỏi trống';
         const codeSnippet = getText(props.code) || getText(props.Code) || '';
         const correctAnswer = (getText(props.correct) || getText(props.Correct)).trim().toUpperCase();
         const options: Record<string, string> = {};
@@ -52,7 +52,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
           });
         }
       } catch (err) {
-        console.warn("Parse error on item", err);
+        console.warn("Lỗi phân tích phần tử", err);
       }
     }
     return parsed;
@@ -60,25 +60,25 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
 
   const handleImport = () => {
     setError(null); setSuccess(null);
-    if (selectedQuiz === 'NEW' && !title.trim()) return setError('Please enter a title.');
-    if (!jsonInput.trim()) return setError('Please paste JSON data.');
+    if (selectedQuiz === 'NEW' && !title.trim()) return setError('Vui lòng nhập tên bộ đề.');
+    if (!jsonInput.trim()) return setError('Vui lòng dán dữ liệu JSON.');
 
     try {
       const rawData = JSON.parse(jsonInput);
       const parsedQuestions = parseNotionJson(rawData);
-      if (parsedQuestions.length === 0) return setError('No valid questions found in JSON.');
+      if (parsedQuestions.length === 0) return setError('Không tìm thấy câu hỏi hợp lệ nào trong JSON.');
       
       if (selectedQuiz === 'NEW') {
         addQuizSet({ id: crypto.randomUUID(), title: title.trim(), questions: parsedQuestions, createdAt: Date.now() });
-        setSuccess(`Successfully extracted ${parsedQuestions.length} questions!`);
+        setSuccess(`Trích xuất thành công ${parsedQuestions.length} câu hỏi!`);
       } else {
         const result = appendQuestions(selectedQuiz, parsedQuestions);
-        setSuccess(`Added ${result.added} new questions. Skipped ${result.duplicates} duplicates.`);
+        setSuccess(`Đã thêm ${result.added} câu hỏi mới. Bỏ qua ${result.duplicates} câu trùng lặp.`);
       }
       
       setTimeout(() => setViewState({ type: 'dashboard' }), 2000);
     } catch (err: any) {
-      setError(`Parse error: ${err.message || 'Invalid JSON'}`);
+      setError(`Lỗi phân tích JSON: ${err.message || 'JSON không hợp lệ'}`);
     }
   };
 
@@ -88,13 +88,13 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
         onClick={() => setViewState({ type: 'dashboard' })}
         className="flex items-center text-[12px] uppercase tracking-[1px] font-[600] text-[#a4b0be] hover:text-[#2d3436] mb-8 transition-colors"
       >
-        <ArrowLeft size={14} className="mr-2" /> Return to Library
+        <ArrowLeft size={14} className="mr-2" /> Quay lại Thư viện
       </button>
 
       <div className="bg-white rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.05)] overflow-hidden">
         <div className="p-10 border-b border-[#edf2f7]">
-          <h2 className="text-[24px] font-[600] text-[#2d3436] m-0">JSON Data Extraction</h2>
-          <span className="text-[14px] text-[#636e72] mt-1 block">Parse raw data directly into interactive assessments</span>
+          <h2 className="text-[24px] font-[600] text-[#2d3436] m-0">Trích xuất Dữ liệu JSON</h2>
+          <span className="text-[14px] text-[#636e72] mt-1 block">Chuyển đổi dữ liệu gốc thành bộ đề trắc nghiệm</span>
         </div>
 
         <div className="p-10 space-y-8">
@@ -114,7 +114,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
 
           <div>
             <label className="block text-[12px] font-[600] text-[#a4b0be] uppercase tracking-[1px] mb-3">
-              Target Assessment
+              Lưu vào bộ đề
             </label>
             <div className="relative">
               <select
@@ -122,9 +122,9 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
                 onChange={(e) => setSelectedQuiz(e.target.value)}
                 className="w-full px-5 py-3 border border-[#edf2f7] rounded-[12px] focus:border-[#1e272e] focus:ring-1 focus:ring-[#1e272e] outline-none transition-all text-[#2d3436] text-[14px] bg-white appearance-none"
               >
-                <option value="NEW">+ Create New Assessment</option>
+                <option value="NEW">+ Tạo bộ đề mới</option>
                 {quizSets.map(q => (
-                  <option key={q.id} value={q.id}>Append to: {q.title}</option>
+                  <option key={q.id} value={q.id}>Thêm vào: {q.title}</option>
                 ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-[#a4b0be]">
@@ -136,13 +136,13 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
           {selectedQuiz === 'NEW' && (
             <div>
               <label className="block text-[12px] font-[600] text-[#a4b0be] uppercase tracking-[1px] mb-3">
-                New Assessment Title
+                Tên bộ đề mới
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Database Concepts Ch.1"
+                placeholder="VD: Trắc nghiệm Cơ sở dữ liệu Chương 1"
                 className="w-full px-5 py-3 border border-[#edf2f7] rounded-[12px] focus:border-[#1e272e] focus:ring-1 focus:ring-[#1e272e] outline-none transition-all text-[#2d3436] text-[14px]"
               />
             </div>
@@ -150,7 +150,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
 
           <div>
             <label className="block text-[12px] font-[600] text-[#a4b0be] uppercase tracking-[1px] mb-3">
-              Raw Payload (JSON Array)
+              Dữ liệu gốc (JSON Array)
             </label>
             <textarea
               value={jsonInput}
@@ -165,7 +165,7 @@ export function ImportQuiz({ setViewState, targetQuizId = 'NEW' }: ImportQuizPro
               onClick={handleImport}
               className="bg-[#1e272e] hover:bg-[#2d3436] text-white px-8 py-3.5 rounded-[8px] font-[600] text-[13px] uppercase tracking-[1px] transition-colors"
             >
-              Parse Payload
+              Trích xuất dữ liệu
             </button>
           </div>
         </div>

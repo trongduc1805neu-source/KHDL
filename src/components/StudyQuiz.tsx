@@ -60,25 +60,25 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
           {/* Sidebar */}
           <aside className="w-[300px] bg-[#1e272e] text-white p-10 flex flex-col justify-between shrink-0">
             <div>
-              <h1 className="text-[14px] uppercase tracking-[2px] opacity-60 mb-10 m-0">Assessment Result</h1>
+              <h1 className="text-[14px] uppercase tracking-[2px] opacity-60 mb-10 m-0">Kết quả làm bài</h1>
               <div className="mb-10">
                 <div className="text-[72px] font-[700] leading-[1]">{percentage}%</div>
-                <div className="text-[16px] opacity-70 mt-2">Accuracy Achieved</div>
+                <div className="text-[16px] opacity-70 mt-2">Tỷ lệ chính xác</div>
               </div>
               <div className="mt-8 space-y-6">
                 <div>
                   <span className="block text-[24px] font-[600]">{totalCorrect} / {quiz.questions.length}</span>
-                  <span className="text-[12px] opacity-50 uppercase tracking-[1px]">Correct Answers</span>
+                  <span className="text-[12px] opacity-50 uppercase tracking-[1px]">Câu trả lời đúng</span>
                 </div>
                 <div>
                   <span className="block text-[20px] font-[600] line-clamp-2" title={quiz.title}>{quiz.title}</span>
-                  <span className="text-[12px] opacity-50 uppercase tracking-[1px]">Assessment Set</span>
+                  <span className="text-[12px] opacity-50 uppercase tracking-[1px]">Tên bộ đề</span>
                 </div>
               </div>
             </div>
             <div className="text-[11px] opacity-40 leading-[1.6]">
-              Completed: {new Date().toLocaleString()}<br/>
-              Attempt logged.
+              Hoàn thành lúc: {new Date().toLocaleString()}<br/>
+              Đã lưu kết quả.
             </div>
           </aside>
           
@@ -86,11 +86,11 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
           <main className="flex-1 p-10 flex flex-col overflow-y-auto">
             <div className="flex justify-between items-end mb-8 pb-5 border-b border-[#edf2f7]">
               <div>
-                <h2 className="m-0 text-[24px] font-[600] text-[#2d3436]">Detailed Breakdown</h2>
-                <span className="text-[14px] text-[#636e72]">Reviewing all {quiz.questions.length} questions</span>
+                <h2 className="m-0 text-[24px] font-[600] text-[#2d3436]">Chi tiết kết quả</h2>
+                <span className="text-[14px] text-[#636e72]">Đánh giá {quiz.questions.length} câu hỏi của lần làm này</span>
               </div>
               <span className="text-[14px] font-[600] text-[#2d3436]">
-                Status: <strong style={{color: percentage >= 50 ? '#00b894' : '#ff7675'}}>{percentage >= 50 ? 'Passed' : 'Failed'}</strong>
+                Trạng thái: <strong style={{color: percentage >= 50 ? '#00b894' : '#ff7675'}}>{percentage >= 50 ? 'Đạt' : 'Chưa đạt'}</strong>
               </span>
             </div>
 
@@ -98,10 +98,10 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
               <thead>
                 <tr>
                   <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">#</th>
-                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Question Identifier</th>
-                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Your Ans</th>
-                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Correct</th>
-                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Result</th>
+                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Mã câu hỏi</th>
+                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Đáp án của bạn</th>
+                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Đáp án đúng</th>
+                  <th className="text-left text-[12px] uppercase tracking-[1px] text-[#a4b0be] py-3 px-4 border-b-2 border-[#f1f2f6]">Kết quả</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,7 +116,7 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
                         <span className={cn(
                           "inline-block px-2.5 py-1 rounded-[6px] font-[600] text-[12px]",
                           uAns === "NONE" ? "bg-[#f1f2f6] text-[#747d8c]" : (isMatch ? "bg-[#e3fcef] text-[#00b894]" : "bg-[#ffe4e4] text-[#ff7675]")
-                        )}>{uAns}</span>
+                        )}>{uAns === "NONE" ? "TRỐNG" : uAns}</span>
                       </td>
                       <td className="py-4 px-4 border-b border-[#f1f2f6]">
                         <span className="inline-block px-2.5 py-1 rounded-[6px] font-[600] text-[12px] bg-[#e3fcef] text-[#00b894]">
@@ -128,7 +128,7 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
                           "w-2.5 h-2.5 rounded-full inline-block mr-2",
                           isMatch ? "bg-[#00b894]" : "bg-[#ff7675]"
                         )}></span>
-                        <span className={isMatch ? "text-[#00b894]" : "text-[#747d8c]"}>{isMatch ? 'Correct' : 'Incorrect'}</span>
+                        <span className={isMatch ? "text-[#00b894]" : "text-[#747d8c]"}>{isMatch ? 'Đúng' : 'Sai'}</span>
                       </td>
                     </tr>
                   )
@@ -137,8 +137,8 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
             </table>
             
             <div className="mt-10 flex gap-4">
-              <button onClick={() => setViewState({ type: 'dashboard' })} className="px-6 py-2.5 border border-[#edf2f7] rounded-[8px] text-[13px] uppercase tracking-[1px] font-[600] text-[#1e272e] hover:bg-[#f4f7f6]">Library</button>
-              <button onClick={resetStudy} className="px-6 py-2.5 bg-[#1e272e] rounded-[8px] text-[13px] uppercase tracking-[1px] font-[600] text-white hover:bg-[#2d3436]">Retry Assessment</button>
+              <button onClick={() => setViewState({ type: 'dashboard' })} className="px-6 py-2.5 border border-[#edf2f7] rounded-[8px] text-[13px] uppercase tracking-[1px] font-[600] text-[#1e272e] hover:bg-[#f4f7f6]">Về thư viện</button>
+              <button onClick={resetStudy} className="px-6 py-2.5 bg-[#1e272e] rounded-[8px] text-[13px] uppercase tracking-[1px] font-[600] text-white hover:bg-[#2d3436]">Làm lại bài</button>
             </div>
           </main>
         </div>
@@ -146,19 +146,18 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
     );
   }
 
-  // Quiz taking layout using the Clean Minimalism styles
   return (
     <div className="max-w-[700px] mx-auto px-6 py-10">
       <button 
         onClick={() => setViewState({ type: 'dashboard' })}
         className="flex items-center text-[12px] uppercase tracking-[1px] font-[600] text-[#a4b0be] hover:text-[#2d3436] mb-10 transition-colors"
       >
-        <ArrowLeft size={14} className="mr-2" /> Suspend Attempt
+        <ArrowLeft size={14} className="mr-2" /> Tạm dừng & Quay lại
       </button>
 
       <div className="flex items-end justify-between mb-4">
         <div>
-          <span className="text-[12px] uppercase tracking-[1px] font-[600] text-[#a4b0be]">Question {currentIndex + 1} of {quiz.questions.length}</span>
+          <span className="text-[12px] uppercase tracking-[1px] font-[600] text-[#a4b0be]">Câu hỏi {currentIndex + 1} / {quiz.questions.length}</span>
         </div>
         <div className="text-[13px] text-[#636e72] font-mono">ID: ...{question.id.slice(-8)}</div>
       </div>
@@ -170,7 +169,7 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
         ></div>
       </div>
 
-      <h2 className="text-[22px] font-[600] text-[#2d3436] leading-[1.6] mb-6">
+      <h2 className="text-[22px] font-[600] text-[#2d3436] leading-[1.6] mb-6 whitespace-pre-line">
         {question.text}
       </h2>
 
@@ -194,15 +193,15 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
 
           if (isConfirmed) {
             if (isActuallyCorrect) {
-              stateClass = "border-[#00b894] bg-[#e3fcef] z-10 relative";
+              stateClass = "border-[#00b894] bg-[#e3fcef] z-10 relative cursor-default";
               indexClass = "bg-[#00b894] text-white";
               textClass = "text-[#00b894] font-[600]";
             } else if (isSelected) {
-              stateClass = "border-[#ff7675] bg-[#fff0f0] opacity-80 cursor-not-allowed";
+              stateClass = "border-[#ff7675] bg-[#fff0f0] opacity-80 cursor-default";
               indexClass = "bg-[#ff7675] text-white";
               textClass = "text-[#ff7675] font-[500]";
             } else {
-              stateClass = "border-[#edf2f7] bg-white opacity-50 cursor-not-allowed";
+              stateClass = "border-[#edf2f7] bg-white opacity-50 cursor-default";
             }
           } else {
             // Unconfirmed draft selection visual mapping
@@ -245,7 +244,7 @@ export function StudyQuiz({ quizId, setViewState }: StudyQuizProps) {
               : "bg-[#edf2f7] text-[#a4b0be] cursor-not-allowed"
           )}
         >
-          {!isChecked ? 'Check Answer' : (isLastQuestion ? 'Complete Assessment' : 'Proceed')}
+          {!isChecked ? 'Kiểm tra đáp án' : (isLastQuestion ? 'Hoàn thành bài thi' : 'Câu tiếp theo')}
         </button>
       </div>
     </div>
