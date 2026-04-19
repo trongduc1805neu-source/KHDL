@@ -1,4 +1,4 @@
-import { BookOpen, Trash2, PlusCircle } from 'lucide-react';
+import { BookOpen, Trash2, PlusCircle, BrainCircuit } from 'lucide-react';
 import { useQuizStore } from '../store/useQuizStore';
 import { ViewState } from '../types';
 
@@ -16,13 +16,24 @@ export function Dashboard({ setViewState }: DashboardProps) {
           <h2 className="text-[24px] font-[600] text-[#2d3436] m-0">Thư viện Bộ đề</h2>
           <span className="text-[14px] text-[#636e72]">Quản lý các bộ đề và câu hỏi của bạn</span>
         </div>
-        <button
-          onClick={() => setViewState({ type: 'import' })}
-          className="flex items-center gap-2 bg-[#1e272e] hover:bg-[#1e272e]/90 text-white px-5 py-2.5 rounded-[8px] font-[600] text-[13px] transition-colors shadow-sm"
-        >
-          <PlusCircle size={16} />
-          <span>Thêm bộ đề mới</span>
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setViewState({ type: 'srs-setup' })}
+            className="flex items-center gap-2 bg-[#e3fcef] text-[#00b894] hover:bg-[#00b894] hover:text-white px-5 py-2.5 rounded-[8px] font-[600] text-[13px] transition-colors shadow-sm border border-[#00b894]/20"
+          >
+            <BrainCircuit size={16} />
+            <span className="hidden sm:inline">Ôn tập Anki (Trộn đề)</span>
+            <span className="sm:hidden">Ôn tập Anki</span>
+          </button>
+          <button
+            onClick={() => setViewState({ type: 'import' })}
+            className="flex items-center gap-2 bg-[#1e272e] hover:bg-[#1e272e]/90 text-white px-5 py-2.5 rounded-[8px] font-[600] text-[13px] transition-colors shadow-sm"
+          >
+            <PlusCircle size={16} />
+            <span className="hidden sm:inline">Thêm bộ đề mới</span>
+            <span className="sm:hidden">Thêm</span>
+          </button>
+        </div>
       </div>
 
       {quizSets.length === 0 ? (

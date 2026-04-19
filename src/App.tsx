@@ -4,6 +4,8 @@ import { ViewState } from './types';
 import { Dashboard } from './components/Dashboard';
 import { ImportQuiz } from './components/ImportQuiz';
 import { StudyQuiz } from './components/StudyQuiz';
+import { SrsSetup } from './components/SrsSetup';
+import { SrsStudy } from './components/SrsStudy';
 
 export default function App() {
   const [viewState, setViewState] = useState<ViewState>({ type: 'dashboard' });
@@ -16,6 +18,10 @@ export default function App() {
         return <ImportQuiz setViewState={setViewState} targetQuizId={viewState.targetQuizId} />;
       case 'study':
         return <StudyQuiz quizId={viewState.quizId} setViewState={setViewState} />;
+      case 'srs-setup':
+        return <SrsSetup setViewState={setViewState} />;
+      case 'srs-study':
+        return <SrsStudy quizIds={viewState.quizIds} setViewState={setViewState} />;
       default:
         return <Dashboard setViewState={setViewState} />;
     }

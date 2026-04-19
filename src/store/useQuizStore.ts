@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { QuizSet, Question } from '../types';
+import { QuizSet, Question, SRSData } from '../types';
 
 interface QuizStore {
   quizSets: QuizSet[];
   addQuizSet: (quiz: QuizSet) => void;
   removeQuizSet: (id: string) => void;
   appendQuestions: (quizId: string, newQuestions: Question[]) => { added: number; duplicates: number };
+  updateQuestionSRS: (quizId: string, questionId: string, srs: SRSData) => void;
 }
 
 export const useQuizStore = create<QuizStore>()(
@@ -43,7 +44,18 @@ export const useQuizStore = create<QuizStore>()(
         });
 
         return { added, duplicates };
-      }
+      },
+      updateQuestionSRS: (quizId, questionId, srs) => set((state) => ({
+        quizSets: state.quizSets.map((quiz) => {
+          if (quiz.id === quizId) {
+            return {
+              ...quiz,
+              questions: quiz.questions.map((q) => q.id === questionId ? { ...q, srs } : q)
+            };
+          }
+          return quiz;
+        })
+      }))
     }),
     {
       name: 'quiz-storage',
